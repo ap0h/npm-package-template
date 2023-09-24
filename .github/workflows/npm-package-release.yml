@@ -30,15 +30,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.17'
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      # - name: Get yarn cache directory path
+      #   id: yarn-cache-dir-path
+      #   run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
         uses: actions/cache@v3
         id: yarn-cache
         with:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          # path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: 'node_modules'
       - if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
         name: Install dependencies
         run: yarn --frozen-lockfile
@@ -53,7 +54,7 @@ jobs:
         uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          path: ${{ build-cache.steps.yarn-cache-dir-path.outputs.dir }}
+          path: 'node_modules'
       - run: yarn test
       - name: Upload test coverage report
         uses: actions/upload-artifact@v3
