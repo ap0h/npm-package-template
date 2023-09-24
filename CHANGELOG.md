@@ -1,3 +1,11 @@
+## [1.0.1](https://github.com/ap0h/npm-package-template/compare/v1.0.0...v1.0.1) (2023-09-24)
+
+
+### Chores
+
+* add badges ([9636ae8](https://github.com/ap0h/npm-package-template/commit/9636ae8d80c03a0b9e6a9e26ff936663f7be2087))
+* cleanup left comments ([ecdb57b](https://github.com/ap0h/npm-package-template/commit/ecdb57bcde800aa1c370b2520b509e40604efbbc))
+
 ## 1.0.0 (2023-09-24)
 
 
