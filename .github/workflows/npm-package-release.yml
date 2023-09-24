@@ -47,6 +47,7 @@ jobs:
     name: Run unit tests
     needs: build-cache
     steps:
+      - run: ls -al
       - run: yarn test
       - name: Upload test coverage report
         uses: actions/upload-artifact@v3
