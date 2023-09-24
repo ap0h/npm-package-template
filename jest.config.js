@@ -9,7 +9,7 @@ module.exports = {
 	},
 	coveragePathIgnorePatterns: [],
 	collectCoverage: true,
-	coverageReporters: ['text', 'lcov', 'html'],
+	coverageReporters: ['json-summary','text', 'html'],
 	collectCoverageFrom: [
 		'src/**/*.{js,jsx,ts,tsx}',
 		'!**/*.d.ts',

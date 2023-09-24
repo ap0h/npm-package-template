@@ -13,18 +13,6 @@ permissions:
   id-token: write
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Use Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: '18.17'
-  #         cache:  yarn #npm
-  #         cache-dependency-path: 'yarn.lock' # package-lock.json,
-  #     - run: yarn --frozen-lockfile  #npm ci
-  #     - run: yarn build
   build-cache:
     name: Build Cache
     runs-on: ubuntu-latest
@@ -35,15 +23,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.17'
-      # - name: Get yarn cache directory path
-      #   id: yarn-cache-dir-path
-      #   run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
         uses: actions/cache@v3
         id: yarn-cache
         with:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          # path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           path: 'node_modules'
       - if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
         name: Install dependencies
@@ -61,11 +45,10 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           path: 'node_modules'
       - run: yarn test
-      - name: Upload test coverage report
-        uses: actions/upload-artifact@v3
+      - name: Generating coverage badges
+        uses: jpb06/jest-badges-action@latest
         with:
-          name: coverage
-          path: ./coverage
+          branches: master
   release:
     environment: production
     needs: build-cache
