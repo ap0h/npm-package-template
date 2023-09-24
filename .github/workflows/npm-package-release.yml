@@ -1,0 +1,93 @@
+name: NPM package release CI
+
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Use Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18.17'
+  #         cache:  yarn #npm
+  #         cache-dependency-path: 'yarn.lock' # package-lock.json,
+  #     - run: yarn --frozen-lockfile  #npm ci
+  #     - run: yarn build
+  build-cache:
+    name: Build Cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node 18.17
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.17'
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
+        name: Install dependencies
+        run: yarn --frozen-lockfile
+  test-unit:
+    runs-on: ubuntu-latest
+    name: Run unit tests
+    needs: build-cache
+    steps:
+      - run: yarn test
+      - name: Upload test coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: /coverage
+  release:
+    environment: production
+    needs: build-cache
+    runs-on: ubuntu-latest
+    name: Release package to npm
+    steps:
+      - run: git fetch --prune-tags
+      - run: yarn build
+      # - run: echo "\n//nexus.itbts.net/repository/npm-local:_auth=$NPM_TOKEN\n" >> .npmrc
+      # - run: npm config set registry=http://nexus.<your-domain>/repository/npm-local/
+      # - run: npm set //nexus.<your-domain>/repository/npm-local/:_auth=$NPM_TOKEN 
+      - run: npx semantic-release
+  deploy-docs:
+    needs:
+      - test-unit
+      # - release # uncomment this 
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - run: yarn docs
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          # upload entire directory
+          path: '/coverage'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+
+
+
+  

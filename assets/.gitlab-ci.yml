@@ -1,0 +1,88 @@
+image: node:18
+
+stages:
+  - setup
+  - test
+  - release
+  - docs
+
+cache:
+  key:
+    files:
+      - yarn.lock
+  paths:
+    - .yarn-cache/
+
+#===============================================================#
+# Setup Job - Install dependencies and puppeteer and cache them #
+#===============================================================#
+
+.use_yarn_cache:
+  stage: setup
+  needs:
+    - "prepare-yarn-cache"
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - .yarn-cache/
+      - node_modules/
+    policy: pull
+
+prepare-yarn-cache:
+  stage: setup
+  extends: .use_yarn_cache
+  needs: []
+  script:
+    - echo 'yarn-offline-mirror ".yarn-cache/"' >> .yarnrc
+    - echo 'yarn-offline-mirror-pruning true' >> .yarnrc
+    - yarn --non-interactive --frozen-lockfile --no-progress --prefer-offline | grep -i "success Already up-to-date."      
+  allow_failure:
+    exit_codes: 1 # grep exits with code 1 if no match is found
+  cache:
+    policy: pull-push
+    when: on_failure
+
+
+test:
+  stage: test
+  extends: .use_yarn_cache
+  script:
+    - yarn test
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+  artifacts:
+    paths:
+      - node_modules/
+      - coverage/
+
+release:
+  extends: .use_yarn_cache
+  stage: release
+  script:
+    - yarn build
+    - git fetch --prune-tags
+    - echo "\n//nexus.itbts.net/repository/npm-local:_auth=$NPM_TOKEN\n" >> .npmrc # this is necessary in order to publish to the private npm registry
+    - npm config set registry=http://nexus.itbts.net/repository/npm-local/
+    - npm set //nexus.itbts.net/repository/npm-local/:_auth=$NPM_TOKEN # in new npm version _auth must be prefixed with registry url
+    - npx semantic-release
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  when: manual
+
+pages:
+  extends: .use_yarn_cache
+  stage: docs
+  script:
+    - echo "Generating documentation"
+    - yarn docs
+    - mkdir ./public/coverage
+    - cp -a ./coverage ./public
+  artifacts:
+    paths:
+      - public/
+  needs:
+    - test
+    - release
+  only:
+    - master

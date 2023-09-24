@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "noEmitOnError": false,
+    "diagnostics": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "lib": [
+      "ESNext"
+    ],
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "lib",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "target": "es2020",
+    "skipLibCheck": true,
+    "rootDir": "./",
+    "isolatedModules": true,
+    "incremental": true,
+    "declaration": true,
+    "declarationDir": "lib/dts",
+    "emitDeclarationOnly": true,
+    "tsBuildInfoFile": "lib/tsconfig.build.tsbuildinfo",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "test-e2e/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules/**/*",
+    ".webpack/**/*",
+    "_warmup/**/*",
+    ".vscode/**/*",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+  ]
+}

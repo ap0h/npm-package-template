@@ -1,1 +1,44 @@
-# npm-package-template
+# Efficient NPM Package Template with Rollup and SWC
+
+Welcome to our NPM Package Template, optimized for seamless bundling using Rollup with the powerful SWC compiler. Additionally, we streamline type definitions using the "dts" plugin, consolidating them into a central `index.d.ts` file.
+
+## Compilation and Bundling Process
+
+1. **Type Definitions**: The TypeScript compiler (tsc) generates type definition files (output is multiple type definition files)
+2. **Transpilation** and **Bundling**: Rollup employs the SWC plugin to seamlessly transmute TypeScript into JavaScript. This stage generates two distinct output files tailored for each execution environment (CommonJS and ECMAScript).
+3. **Type Merging**: Rollup further utilizes the "dts" plugin to efficiently merge type definition files into a singular, comprehensive `index.d.ts` file.
+
+**Note**: The crucial utilization of tsc facilitates the emission of `.d.ts` files, which are then expertly merged into a unified main declaration file during bundling.
+
+
+## General notes
+
+You will need `GH_TOKEN` or `GITHUB_TOKEN` for github, for gitlab `GL_TOKEN` or `GITLAB_TOKEN` and `NPM_TOKEN` in order to publish npm package.
+
+## Publishing to private registry
+
+Add following to your package.json
+```
+"publishConfig": {
+		"registry": "url-to-your-private-registry"
+	},
+```
+Configure .npmrc
+- Add `NPM_TOKEN` env variable
+- Gitlab-ci template will generate this file automatically.
+- uncomment lines related to .npmrc and replace url with your private registry url.
+
+```yaml
+      - run: echo "\n//nexus.<your-domain>/repository/npm-local:_auth=$NPM_TOKEN\n" >> .npmrc
+      - run: npm config set registry=http://nexus.<your-domain>/repository/npm-local/
+      - run: npm set //nexus.<your-domain>/repository/npm-local/:_auth=$NPM_TOKEN 
+```
+
+### Gitlab
+
+For gitlab use gitlab-ci workflow from `/assets/.gitlab-ci.yml` and place in root directory.
+
+Install `@semantic-release/gitlab` plugin and replace it instead `@semantic-release/github` in `.releaserc.json`.
+
+In addition to this gitlab plugin for semantic release needs GL_TOKEN or GITLAB_TOKEN env variable in order to commit `CHANGELOG` and `package.json` to your repository after successful release.
+
