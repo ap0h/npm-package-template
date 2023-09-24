@@ -72,7 +72,13 @@ jobs:
     runs-on: ubuntu-latest
     name: Release package to npm
     steps:
-      - run: git fetch --prune-tags
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Restore Cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: 'node_modules'        
       - run: yarn build
       # - run: echo "\n//nexus.itbts.net/repository/npm-local:_auth=$NPM_TOKEN\n" >> .npmrc
       # - run: npm config set registry=http://nexus.<your-domain>/repository/npm-local/
