@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/ap0h/npm-package-template/compare/v1.0.1...v1.0.2) (2023-09-24)
+
+
+### Chores
+
+* update pipeline status badge branch ([afac950](https://github.com/ap0h/npm-package-template/commit/afac95093bd129d1e4ef8bf7af5086888207f3ad))
+
 ## [1.0.1](https://github.com/ap0h/npm-package-template/compare/v1.0.0...v1.0.1) (2023-09-24)
 
 

@@ -1,6 +1,6 @@
 {
 	"name": "@ncoded/npm-package-template",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "NPM Package Template in TypeScript with Jest, Commitizen, Husky, Prettier, Standard-Version and XO",
 	"main": "./lib/bundle.cjs",
 	"types": "./lib/index.d.ts",
