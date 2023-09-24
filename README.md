@@ -1,7 +1,6 @@
 # Efficient NPM Package Template with Rollup and SWC
 
-[![NPM package release CI](https://github.com/ap0h/npm-package-template/actions/workflows/npm-package-release.yml/badge.svg)](https://github.com/ap0h/npm-package-template/actions/workflows/npm-package-release.yml)
-
+[![NPM package release CI](https://github.com/ap0h/npm-package-template/actions/workflows/npm-package-release.yml/badge.svg?branch=master)](https://github.com/ap0h/npm-package-template/actions/workflows/npm-package-release.yml)
 
 ![Branches](./badges/coverage-branches.svg)
 ![Functions](./badges/coverage-functions.svg)
