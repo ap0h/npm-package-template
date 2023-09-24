@@ -72,7 +72,7 @@ jobs:
   deploy-docs:
     needs:
       - test-unit
-      # - release # uncomment this 
+      - release 
     environment:
       name: github-pages
       url: ${{steps.deployment.outputs.page_url}}

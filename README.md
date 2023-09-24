@@ -1,5 +1,15 @@
 # Efficient NPM Package Template with Rollup and SWC
 
+[![NPM package release CI](https://github.com/ap0h/npm-package-template/actions/workflows/npm-package-release.yml/badge.svg)](https://github.com/ap0h/npm-package-template/actions/workflows/npm-package-release.yml)
+
+
+![Branches](./badges/coverage-branches.svg)
+![Functions](./badges/coverage-functions.svg)
+![Lines](./badges/coverage-lines.svg)
+![Statements](./badges/coverage-statements.svg)
+![Jest coverage](./badges/coverage-jest%20coverage.svg)
+
+
 Welcome to our NPM Package Template, optimized for seamless bundling using Rollup with the powerful SWC compiler. Additionally, we streamline type definitions using the "dts" plugin, consolidating them into a central `index.d.ts` file.
 
 ## Compilation and Bundling Process
