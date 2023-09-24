@@ -84,6 +84,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Restore Cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: 'node_modules'
       - run: yarn docs
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -91,7 +96,7 @@ jobs:
         uses: actions/upload-pages-artifact@v2
         with:
           # upload entire directory
-          path: '/coverage'
+          path: '/public
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
