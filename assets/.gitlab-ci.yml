@@ -14,7 +14,7 @@ cache:
     - .yarn-cache/
 
 #===============================================================#
-# Setup Job - Install dependencies and puppeteer and cache them #
+# Setup Job - Install dependencies and cache them #
 #===============================================================#
 
 .use_yarn_cache:
@@ -62,9 +62,9 @@ release:
   script:
     - yarn build
     - git fetch --prune-tags
-    - echo "\n//nexus.itbts.net/repository/npm-local:_auth=$NPM_TOKEN\n" >> .npmrc # this is necessary in order to publish to the private npm registry
-    - npm config set registry=http://nexus.itbts.net/repository/npm-local/
-    - npm set //nexus.itbts.net/repository/npm-local/:_auth=$NPM_TOKEN # in new npm version _auth must be prefixed with registry url
+    - echo "\n//localhost:8081/repository/npm-local/:_auth=$NPM_TOKEN\n" >> .npmrc # this is necessary in order to publish to the private npm registry
+    - npm config set registry=http://localhost:8081/repository/npm-local/
+    - npm set //localhost:8081/repository/npm-local/:_auth=$NPM_TOKEN # in new npm version _auth must be prefixed with registry url
     - npx semantic-release
   rules:
     - if: $CI_COMMIT_BRANCH == "master"

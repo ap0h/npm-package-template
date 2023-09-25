@@ -26,11 +26,12 @@ You will need `GH_TOKEN` or `GITHUB_TOKEN` for github, for gitlab `GL_TOKEN` or 
 
 ## Publishing to private registry
 
-Add following to your package.json
-```
+Update following in your package.json
+```javascript
 "publishConfig": {
-		"registry": "url-to-your-private-registry"
-	},
+	"registry": "http://localhost:8081/repository/npm-local/", // or
+    "@namespace:registry": "http://localhost:8081/repository/npm-local/"
+},
 ```
 Configure .npmrc
 - Add `NPM_TOKEN` env variable
@@ -38,9 +39,9 @@ Configure .npmrc
 - uncomment lines related to .npmrc and replace url with your private registry url.
 
 ```yaml
-      - run: echo "\n//nexus.<your-domain>/repository/npm-local:_auth=$NPM_TOKEN\n" >> .npmrc
-      - run: npm config set registry=http://nexus.<your-domain>/repository/npm-local/
-      - run: npm set //nexus.<your-domain>/repository/npm-local/:_auth=$NPM_TOKEN 
+      - run: echo "\n//localhost:8081/repository/npm-local/:_auth=$NPM_TOKEN\n" >> .npmrc
+      - run: npm config set registry=http://localhost:8081/repository/npm-local/
+      - run: npm set //localhost:8081/repository/npm-local/:_auth=$NPM_TOKEN 
 ```
 
 ### Gitlab

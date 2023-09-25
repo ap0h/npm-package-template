@@ -65,9 +65,9 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           path: 'node_modules'
       - run: yarn build
-      # - run: echo "\n//nexus.itbts.net/repository/npm-local:_auth=$NPM_TOKEN\n" >> .npmrc
-      # - run: npm config set registry=http://nexus.<your-domain>/repository/npm-local/
-      # - run: npm set //nexus.<your-domain>/repository/npm-local/:_auth=$NPM_TOKEN 
+      # - run: echo "\n//localhost:8081/repository/npm-local/:_auth=$NPM_TOKEN\n" >> .npmrc
+      # - run: npm config set registry=http://localhost:8081/repository/npm-local/
+      # - run: npm set //localhost:8081/repository/npm-local/:_auth=$NPM_TOKEN 
       - run: npx semantic-release
   deploy-docs:
     needs:
