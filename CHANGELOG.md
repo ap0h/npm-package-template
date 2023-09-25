@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/ap0h/npm-package-template/compare/v1.0.2...v1.0.3) (2023-09-25)
+
+
+### Chores
+
+* update nexus config for local registry ([0adec4c](https://github.com/ap0h/npm-package-template/commit/0adec4c9d9b3b4ebd2cd1c6e6637abbac55d2361))
+
 ## [1.0.2](https://github.com/ap0h/npm-package-template/compare/v1.0.1...v1.0.2) (2023-09-24)
 
 
